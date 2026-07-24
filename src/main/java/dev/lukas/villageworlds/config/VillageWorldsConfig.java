@@ -13,28 +13,39 @@ import java.nio.file.Path;
 
 public record VillageWorldsConfig(
         boolean terrainAwareVillages,
+        boolean terrainAwareStructures,
         int sampleRadius,
         int sampleStep,
         int maxElevationRange,
         int maxAdjacentDelta,
         double minimumFlatRatio,
-        double maximumRoughness
+        double maximumRoughness,
+        boolean newVillageTypes,
+        boolean improvedJungleTemples,
+        boolean improvedWitchStructures,
+        boolean additionalStructures
 ) {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static VillageWorldsConfig defaults() {
-        return new VillageWorldsConfig(true, 40, 8, 13, 5, 0.70, 4.5);
+        return new VillageWorldsConfig(true, true, 40, 8, 13, 5, 0.70, 4.5,
+                true, true, true, true);
     }
 
     public VillageWorldsConfig validated() {
         return new VillageWorldsConfig(
                 terrainAwareVillages,
+                terrainAwareStructures,
                 clamp(sampleRadius, 16, 96),
                 clamp(sampleStep, 4, 16),
                 clamp(maxElevationRange, 4, 32),
                 clamp(maxAdjacentDelta, 2, 12),
                 clamp(minimumFlatRatio, 0.25, 1.0),
-                clamp(maximumRoughness, 0.5, 16.0)
+                clamp(maximumRoughness, 0.5, 16.0),
+                newVillageTypes,
+                improvedJungleTemples,
+                improvedWitchStructures,
+                additionalStructures
         );
     }
 
