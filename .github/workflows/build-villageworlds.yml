@@ -20,9 +20,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.5.0'
-      - run: gradle clean check build --stacktrace
+      - name: Build and capture log
+        id: build
+        shell: bash
+        run: |
+          set +e
+          gradle clean check build --stacktrace 2>&1 | tee build.log
+          code=${PIPESTATUS[0]}
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
       - uses: actions/upload-artifact@v4
         with:
-          name: villageworlds-1.0.0-fabric-1.21.11
-          path: build/libs/villageworlds-1.0.0.jar
+          name: villageworlds-build-output
+          path: |
+            build.log
+            build/libs/*.jar
           if-no-files-found: error
+      - name: Fail if build failed
+        if: steps.build.outputs.exit_code != '0'
+        run: exit 1
