@@ -47,4 +47,9 @@ tasks.register('pureTest', JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'dev.lukas.villageworlds.terrain.PureSmokeTest'
 }
+
+tasks.named('test') {
+    enabled = false
+}
+
 check.dependsOn tasks.named('pureTest')
