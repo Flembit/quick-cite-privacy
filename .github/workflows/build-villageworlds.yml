@@ -20,6 +20,24 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.5.0'
+      - name: Extract official 1.21.11 worldgen schemas
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL 'https://piston-data.mojang.com/v1/objects/64bb6d763bed0a9f1d632ec347938594144943ed/server.jar' -o minecraft-server.jar
+          mkdir -p vanilla-outer vanilla-data
+          unzip -q minecraft-server.jar -d vanilla-outer
+          nested="$(find vanilla-outer -type f -name 'server-*.jar' | head -n 1)"
+          test -n "$nested"
+          unzip -q "$nested" \
+            'data/minecraft/worldgen/structure/*.json' \
+            'data/minecraft/worldgen/structure_set/*.json' \
+            'data/minecraft/worldgen/template_pool/*.json' \
+            'data/minecraft/worldgen/processor_list/*.json' \
+            'data/minecraft/tags/worldgen/biome/has_structure/*.json' \
+            'data/minecraft/loot_table/chests/*.json' \
+            'data/minecraft/structure/*.nbt' \
+            -d vanilla-data || true
       - name: Build and capture log
         id: build
         shell: bash
@@ -35,6 +53,11 @@ jobs:
           path: |
             build.log
             build/libs/*.jar
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-1.21.11-worldgen-reference
+          path: vanilla-data/
           if-no-files-found: error
       - name: Fail if build failed
         if: steps.build.outputs.exit_code != '0'
