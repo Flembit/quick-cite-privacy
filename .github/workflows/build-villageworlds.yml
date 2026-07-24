@@ -2,6 +2,8 @@ name: Build Village Worlds
 on:
   push:
     branches: [villageworlds-build-20260723]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
