@@ -13,8 +13,9 @@ public final class VillageWorldsMod implements ModInitializer {
     @Override
     public void onInitialize() {
         config = VillageWorldsConfig.load();
-        LOGGER.info("Village Worlds initialized: radius={}, step={}, maxRange={}, maxAdjacentDelta={}",
-                config.sampleRadius(), config.sampleStep(), config.maxElevationRange(), config.maxAdjacentDelta());
+        LOGGER.info("Village Worlds initialized: radius={}, step={}, maxRange={}, maxAdjacentDelta={}, contentVillages={}, temples={}, witchStructures={}, exploration={}",
+                config.sampleRadius(), config.sampleStep(), config.maxElevationRange(), config.maxAdjacentDelta(),
+                config.newVillageTypes(), config.improvedJungleTemples(), config.improvedWitchStructures(), config.additionalStructures());
     }
 
     public static VillageWorldsConfig config() {
