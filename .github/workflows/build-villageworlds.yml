@@ -1,0 +1,28 @@
+name: Build Village Worlds
+on:
+  push:
+    branches: [villageworlds-build-20260723]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.5.0'
+      - run: gradle clean check build --stacktrace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: villageworlds-1.0.0-fabric-1.21.11
+          path: build/libs/villageworlds-1.0.0.jar
+          if-no-files-found: error
