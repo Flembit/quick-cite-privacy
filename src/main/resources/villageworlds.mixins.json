@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "dev.lukas.villageworlds.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["JigsawStructureMixin"],
+  "injectors": {"defaultRequire": 1}
+}

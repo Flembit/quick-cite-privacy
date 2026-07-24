@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "villageworlds",
+  "version": "${version}",
+  "name": "Village Worlds",
+  "description": "Terrain-aware compact biome villages, improved jungle temples, witch structures, and balanced exploration structures.",
+  "authors": ["Lukas Kratochvil"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.lukas.villageworlds.VillageWorldsMod"]
+  },
+  "mixins": ["villageworlds.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": ">=0.141.5+1.21.11"
+  }
+}
